@@ -455,20 +455,46 @@
 /* ==========================================================================
    Filtered View (set by gallery.js when a category other than "All" is picked)
    The bento layout pins every card to a fixed cell, so a lone filtered card
-   would sit in its old corner beside empty space. Re-flow the matches into a
-   centred row of equal cards instead.
+   would sit in its old corner beside empty space. Instead the first match
+   (.is-featured) takes the big first-photo slot, sized and styled exactly like
+   the wedding photo in "All"; any further matches fill the smaller cells.
    ========================================================================== */
 .work-bento-grid.is-filtered {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 440px));
   grid-template-rows: none;
-  grid-auto-rows: 380px;
-  justify-content: center;
+  grid-auto-rows: 240px;
 }
 
 .work-bento-grid.is-filtered .work-bento-card {
   grid-column: auto;
   grid-row: auto;
-  height: auto;
+}
+
+.work-bento-grid.is-filtered .work-bento-card.is-featured {
+  grid-column: 1 / 2;
+  grid-row: span 2;
+}
+
+.work-bento-grid.is-filtered .is-featured .work-bento-title {
+  font-size: 1.7rem;
+}
+
+@media (max-width: 1023px) {
+  .work-bento-grid.is-filtered {
+    grid-auto-rows: auto;
+  }
+
+  .work-bento-grid.is-filtered .work-bento-card.is-featured {
+    grid-column: 1 / 3;
+    grid-row: auto;
+    height: 380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .work-bento-grid.is-filtered .work-bento-card.is-featured {
+    grid-column: 1 / 2;
+    height: 280px;
+  }
 }
 
 .work-bento-card.is-entering {
@@ -478,12 +504,6 @@
 @keyframes work-card-in {
   from { opacity: 0; transform: translateY(14px) scale(0.98); }
   to   { opacity: 1; transform: none; }
-}
-
-@media (max-width: 640px) {
-  .work-bento-grid.is-filtered {
-    grid-auto-rows: 300px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

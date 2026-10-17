@@ -42,12 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const itemCat = (item.dataset.category || '').toLowerCase();
         const matches = currentCategory === 'all' || itemCat === currentCategory;
         item.style.display = matches ? '' : 'none';
-        item.classList.remove('is-entering');
+        item.classList.remove('is-entering', 'is-featured');
         if (matches) activeFilteredItems.push(item);
       });
 
-      // "All" keeps the bento collage; a single category re-flows into a centred row
-      galleryGrid.classList.toggle('is-filtered', currentCategory !== 'all');
+      // "All" keeps the bento collage; in a category the first match takes the
+      // big first-photo slot (styled like the wedding photo in "All")
+      const isFiltered = currentCategory !== 'all';
+      galleryGrid.classList.toggle('is-filtered', isFiltered);
+      if (isFiltered && activeFilteredItems.length) activeFilteredItems[0].classList.add('is-featured');
 
       // Restart the fade-in on the cards now showing
       void galleryGrid.offsetWidth;

@@ -44,7 +44,7 @@ $csrf_token = generate_csrf_token();
   <link rel="stylesheet" href="assets/css/nav_upgrade.css?v=3">
   <link rel="stylesheet" href="assets/css/about_upgrade.css?v=3">
   <link rel="stylesheet" href="assets/css/services_upgrade.css?v=3">
-  <link rel="stylesheet" href="assets/css/portfolio_upgrade.css?v=4">
+  <link rel="stylesheet" href="assets/css/portfolio_upgrade.css?v=5">
   <link rel="stylesheet" href="assets/css/why_choose_upgrade.css?v=3">
   <link rel="stylesheet" href="assets/css/packages_upgrade.css?v=3">
   <link rel="stylesheet" href="assets/css/footer_upgrade.css?v=3">
@@ -2254,7 +2254,7 @@ $csrf_token = generate_csrf_token();
 
   <!-- Application Logic -->
   <script src="assets/js/animations.js?v=3"></script>
-  <script src="assets/js/gallery.js?v=4"></script>
+  <script src="assets/js/gallery.js?v=5"></script>
   <script src="assets/js/contact.js?v=3"></script>
   <script src="assets/js/main.js?v=3"></script>
 </body>
