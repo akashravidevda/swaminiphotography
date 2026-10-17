@@ -453,6 +453,46 @@
 }
 
 /* ==========================================================================
+   Filtered View (set by gallery.js when a category other than "All" is picked)
+   The bento layout pins every card to a fixed cell, so a lone filtered card
+   would sit in its old corner beside empty space. Re-flow the matches into a
+   centred row of equal cards instead.
+   ========================================================================== */
+.work-bento-grid.is-filtered {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 440px));
+  grid-template-rows: none;
+  grid-auto-rows: 380px;
+  justify-content: center;
+}
+
+.work-bento-grid.is-filtered .work-bento-card {
+  grid-column: auto;
+  grid-row: auto;
+  height: auto;
+}
+
+.work-bento-card.is-entering {
+  animation: work-card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) backwards; /* backwards: hover zoom still works after */
+}
+
+@keyframes work-card-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .work-bento-grid.is-filtered {
+    grid-auto-rows: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-bento-card.is-entering {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
    Bottom Trust & Stats Strip
    ========================================================================== */
 .work-bottom-stats-container {

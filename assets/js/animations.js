@@ -15,101 +15,83 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
   }
 
+  // Only animate selectors that exist, so GSAP never warns about missing targets
+  const present = (selectors) => selectors.filter((sel) => document.querySelector(sel));
+
+  // Many cards have `transition: all` in CSS, which fights GSAP's per-frame updates.
+  // Pause CSS transitions during the reveal, then hand the element back to CSS.
+  const tweenSafely = (targets) => ({
+    onStart: () => gsap.utils.toArray(targets).forEach((el) => { el.style.transition = 'none'; }),
+    onComplete: () => gsap.utils.toArray(targets).forEach((el) => { el.style.transition = ''; }),
+    clearProps: 'transform,opacity'
+  });
+
   // 1. Hero Entrance Sequence
   const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
-  
-  heroTimeline
-    .from('.site-header', { y: -50, opacity: 0, duration: 0.8 })
-    .from('.hero-meta-strip', { y: 20, opacity: 0, duration: 0.6 }, '-=0.4')
-    .from('.hero-headline', { y: 30, opacity: 0, duration: 0.9 }, '-=0.4')
-    .from('.hero-supporting', { y: 20, opacity: 0, duration: 0.7 }, '-=0.5')
-    .from('.hero-actions', { y: 20, opacity: 0, duration: 0.7 }, '-=0.5')
-    .from('.hero-trust-bar', { y: 20, opacity: 0, duration: 0.7 }, '-=0.5')
-    .from('.hero-scroll-cue', { opacity: 0, duration: 0.8 }, '-=0.3');
+  const heroSteps = [
+    ['.site-header-upgrade', { y: -50, duration: 0.8 }],
+    ['.hero-eyebrow-tag', { y: 20, duration: 0.6 }],
+    ['.hero-headline', { y: 30, duration: 0.9 }],
+    ['.hero-services-ticker', { y: 20, duration: 0.7 }],
+    ['.hero-subtext', { y: 20, duration: 0.7 }],
+    ['.hero-actions-row', { y: 20, duration: 0.7 }],
+    ['.hero-trust-bar', { y: 20, duration: 0.7 }],
+    ['.hero-pagination-cue', { duration: 0.8 }]
+  ];
 
-  // 2. ScrollTrigger Section Reveals
-  if (typeof ScrollTrigger !== 'undefined') {
-    // Reveal Section Headers
-    gsap.utils.toArray('.section-header').forEach((header) => {
-      gsap.from(header, {
-        scrollTrigger: {
-          trigger: header,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.out'
-      });
+  heroSteps
+    .filter(([sel]) => document.querySelector(sel))
+    .forEach(([sel, vars], i) => {
+      heroTimeline.from(sel, { opacity: 0, clearProps: 'transform,opacity', ...vars }, i === 0 ? 0 : '-=0.45');
     });
 
-    // Reveal Service Cards Staggered
-    const serviceCards = gsap.utils.toArray('.service-card');
-    if (serviceCards.length > 0) {
-      gsap.from(serviceCards, {
-        scrollTrigger: {
-          trigger: '#services .grid-2',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: 'power2.out'
-      });
-    }
+  if (typeof ScrollTrigger === 'undefined') return;
 
-    // Reveal Why Swamini Points
-    const whyPoints = gsap.utils.toArray('.why-point-item');
-    if (whyPoints.length > 0) {
-      gsap.from(whyPoints, {
-        scrollTrigger: {
-          trigger: '.why-points-list',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        },
-        x: -30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: 'power2.out'
-      });
-    }
+  // 2. Section Headings
+  present([
+    '.services-upgrade-header',
+    '.work-upgrade-header',
+    '.packages-upgrade-header',
+    '.testimonials-header-row',
+    '.why-left-content',
+    '.about-col-center',
+    '.final-cta-right'
+  ]).forEach((sel) => {
+    gsap.from(sel, {
+      scrollTrigger: { trigger: sel, start: 'top 85%', toggleActions: 'play none none none' },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      clearProps: 'transform,opacity'
+    });
+  });
 
-    // Reveal Experience Timeline Steps
-    const timelineSteps = gsap.utils.toArray('.timeline-step');
-    if (timelineSteps.length > 0) {
-      gsap.from(timelineSteps, {
-        scrollTrigger: {
-          trigger: '.timeline',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        },
-        y: 35,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.18,
-        ease: 'power2.out'
-      });
-    }
+  // 3. Staggered Card Groups: [grid that triggers, cards inside it]
+  // Vertical offsets only: a sideways start position would poke past the screen edge on phones
+  const cardGroups = [
+    ['.about-col-right', '.about-service-card'],
+    ['.services-grid-upgrade', '.service-card-lux'],
+    ['.work-bento-grid', '.work-bento-card'],
+    ['.why-pillars-5-grid', '.why-pillar-card-lux'],
+    ['.packages-cards-3-grid', '.package-card-lux'],
+    ['.testimonials-grid', '.testimonial-card']
+  ];
 
-    // Reveal Package Cards
-    const packageCards = gsap.utils.toArray('.package-card');
-    if (packageCards.length > 0) {
-      gsap.from(packageCards, {
-        scrollTrigger: {
-          trigger: '#packages .grid-3',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power2.out'
-      });
-    }
-  }
+  cardGroups.forEach(([gridSel, cardSel]) => {
+    const grid = document.querySelector(gridSel);
+    if (!grid) return;
+    const cards = grid.querySelectorAll(cardSel);
+    if (!cards.length) return;
+
+    gsap.from(cards, {
+      scrollTrigger: { trigger: grid, start: 'top 82%', toggleActions: 'play none none none' },
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power2.out',
+      ...tweenSafely(cards)
+    });
+  });
 });

@@ -513,10 +513,16 @@
 /* =============================================================================
    Responsive Breakpoints
    ============================================================================= */
+/* Five columns squeeze Quick Links / Services to ~70px below 1200px:
+   brand row on top, four columns underneath */
 @media (max-width: 1200px) {
   .footer-main-grid {
-    grid-template-columns: 1.5fr 1fr 1fr 1.3fr 1.4fr;
-    gap: 28px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px 28px;
+  }
+  .footer-col-brand {
+    grid-column: 1 / -1;
+    max-width: 600px;
   }
 }
 

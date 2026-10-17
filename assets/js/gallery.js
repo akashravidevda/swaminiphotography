@@ -22,24 +22,39 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeFilteredItems = [...galleryItems];
   let currentIndex = 0;
 
+  const galleryGrid = galleryItems[0].parentElement;
+
   // 1. Category Filtering
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      filterBtns.forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
 
       currentCategory = (btn.dataset.filter || 'all').toLowerCase();
 
+      // Exact match: "wedding" must not also pull in "pre-wedding"
       activeFilteredItems = [];
       galleryItems.forEach((item) => {
         const itemCat = (item.dataset.category || '').toLowerCase();
-        if (currentCategory === 'all' || itemCat === currentCategory || itemCat.includes(currentCategory)) {
-          item.style.display = '';
-          activeFilteredItems.push(item);
-        } else {
-          item.style.display = 'none';
-        }
+        const matches = currentCategory === 'all' || itemCat === currentCategory;
+        item.style.display = matches ? '' : 'none';
+        item.classList.remove('is-entering');
+        if (matches) activeFilteredItems.push(item);
       });
+
+      // "All" keeps the bento collage; a single category re-flows into a centred row
+      galleryGrid.classList.toggle('is-filtered', currentCategory !== 'all');
+
+      // Restart the fade-in on the cards now showing
+      void galleryGrid.offsetWidth;
+      activeFilteredItems.forEach((item) => item.classList.add('is-entering'));
+
+      // The grid's height changed, so scroll-triggered animations further down must re-measure
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     });
   });
 

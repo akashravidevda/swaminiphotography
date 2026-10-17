@@ -36,18 +36,18 @@ $csrf_token = generate_csrf_token();
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheets -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=2">
-  <link rel="stylesheet" href="assets/css/reset.css?v=2">
-  <link rel="stylesheet" href="assets/css/layout.css?v=2">
-  <link rel="stylesheet" href="assets/css/components.css?v=2">
-  <link rel="stylesheet" href="assets/css/style.css?v=2">
-  <link rel="stylesheet" href="assets/css/nav_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/about_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/services_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/portfolio_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/why_choose_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/packages_upgrade.css?v=2">
-  <link rel="stylesheet" href="assets/css/footer_upgrade.css?v=2">
+  <link rel="stylesheet" href="assets/css/variables.css?v=3">
+  <link rel="stylesheet" href="assets/css/reset.css?v=3">
+  <link rel="stylesheet" href="assets/css/layout.css?v=3">
+  <link rel="stylesheet" href="assets/css/components.css?v=3">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
+  <link rel="stylesheet" href="assets/css/nav_upgrade.css?v=3">
+  <link rel="stylesheet" href="assets/css/about_upgrade.css?v=3">
+  <link rel="stylesheet" href="assets/css/services_upgrade.css?v=3">
+  <link rel="stylesheet" href="assets/css/portfolio_upgrade.css?v=4">
+  <link rel="stylesheet" href="assets/css/why_choose_upgrade.css?v=3">
+  <link rel="stylesheet" href="assets/css/packages_upgrade.css?v=3">
+  <link rel="stylesheet" href="assets/css/footer_upgrade.css?v=3">
 
   <!-- JSON-LD Structured Data for Local Business -->
   <script type="application/ld+json">
@@ -2253,9 +2253,9 @@ $csrf_token = generate_csrf_token();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- Application Logic -->
-  <script src="assets/js/animations.js"></script>
-  <script src="assets/js/gallery.js"></script>
-  <script src="assets/js/contact.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/animations.js?v=3"></script>
+  <script src="assets/js/gallery.js?v=4"></script>
+  <script src="assets/js/contact.js?v=3"></script>
+  <script src="assets/js/main.js?v=3"></script>
 </body>
 </html>

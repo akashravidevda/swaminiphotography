@@ -373,15 +373,18 @@
   justify-content: space-between;
   padding: 90px 28px 36px;
   opacity: 0;
+  visibility: hidden; /* keeps closed-drawer links out of the keyboard tab order */
   pointer-events: none;
   transform: translateY(-15px);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.35s;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .nav-mobile-drawer-upgrade.open {
   opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -485,7 +488,15 @@
 /* =============================================================================
    Responsive Breakpoints (Preserving Desktop Layout)
    ============================================================================= */
-@media (max-width: 1080px) {
+/* Brand + 8 links + phone + WhatsApp need ~1270px; drop the phone pill first
+   (Call Now stays in the mobile action bar and footer) */
+@media (max-width: 1279px) {
+  .nav-phone-pill {
+    display: none;
+  }
+}
+
+@media (max-width: 1300px) {
   .nav-center-dock {
     gap: 2px;
     padding: 4px 6px;
@@ -493,14 +504,12 @@
   .nav-item-link {
     font-size: 0.76rem;
     padding: 6px 10px;
-  }
-  .nav-phone-pill {
-    padding: 7px 12px;
-    font-size: 0.76rem;
+    white-space: nowrap;
   }
 }
 
-@media (max-width: 960px) {
+/* Below this the link dock no longer fits beside the brand and WhatsApp button */
+@media (max-width: 1180px) {
   .site-header-upgrade {
     height: 76px;
   }
@@ -567,7 +576,7 @@
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 400px) {
   .site-header-upgrade {
     height: 68px;
     padding: 0 4px;
